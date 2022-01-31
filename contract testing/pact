@@ -1,0 +1,46 @@
+pact nedir?
+pact async mesaj ve http request contract'larını test etmeyi sağlayan bir tool.
+
+projemizde kullanmaya karar verdik çünkü:
+- integration testlerimizi isolated ortamlarda yapıyoruz
+- e2e testlerimizde de az sayıda user path'lerini test ediyoruz ve bu testler görece yavaş testler.
+dolayısıyla uygulamalarımızın doğru bir şekilde etkileşim kurduğundan erken aşamalarda emin olamıyoruz.
+
+pact consumer-driven bir test tool'udur. contract'lar consumer tarafında üretilir, ve provider tarafında test edilir. 
+yani contract'larla ilişkisi olmayan provider kodlarında istenildiği gibi değişiklik yapılabilir.
+
+pact'in çalışma mantığını açıklayan güzel bir akış şeması:
+
+1- consumer tarafında mock bir provider servisi ayağa kaldırıyoruz ve bize dönmesini beklediğimiz response'u bu servise bildiriyoruz.
+2- her bir testin sonunda interaction'lar contract dökümanına yazılıyor. 
+3- Tüm testler bittikten sonra oluşan contract dökümanını pact broker'a yüklüyoruz
+4- provider service pact broker'dan bütün contract'ları alıyor ve her bir interaction'ı kendi tarafında gerçekleştirip sonuçları consumer'ın expectation'larıyla 
+   karşılaştırıyor. eğer her request'in response'u consumer'ın beklediği response ile uyuşuyorsa, verification testi geçmiş oluyor.
+5- provider service'in etkileşim kurduğu diğer sistemler mocklanıyor ve testler isolated olarak koşulmuş oluyor. 
+   (bu aşama 4. aşamayla birlikte gerçekleşiyor aslında)
+Son olarak da provider api verification sonucunu pact broker'a iletiyor ve broker'dan da testlerin başarılı olup olmadığını takip edebiliyoruz.
+
+consumer ve provider arasındaki interactionlar/contractların bütününe pact deniyor.
+pact bir json dosyasıdır ve içinde şu datalar bulunur:
+- consumer adı
+- provider adı
+- interaction listesi
+- pact spesification versiyonu
+
+Akılda tutulması gereken birkaç notu sıralayalım.
+- her bir test yalnızca bir interaction'ı test etmeli. eğer bir case için birden fazla interaction gerekiyorsa, her bir interaction ayrı bir test olacak şekilde
+  bölünmeli.
+  pact dökümantasyonundaki bir örnek:
+  “create user 123, then log in” =>  “create user 123” + “log in as user 123 (user 123 exists)”
+
+- provider state kavramı: koşulan testin adı denilebilir. bir interaction'ı verify etmek için provider'ın hangi state'de olması gerektiğini söyler. 
+  state sayesinde bir endpointin birden fazla durumu için testler yazılabilir.
+
+- contract testler unit test gibi düşünülmeli ve sadece consumer ve provider arasındaki iletişimi test etmek için kullanılmalı.
+  it test veya ui test vs için kullanılırsa redundant bir sürü interaction oluşturmuş oluruz ve bu sadece karışıklık sağlar.
+
+- consumerda random data kullanılmamalı. consumer pact'i publish ettiğinde eğer hiçbir data değişmemişse, son verification sonucu korunur. yani bir önceki koşulan
+  test pass olmuşsa, provider testinin tekrar koşmasını beklemeden consumer kodu deploy edilebilir. 
+  ama eğer interactionlardaki datalar değişmişse, pact contract değişmiş gibi davranır ve yeni contract'ın provider tarafından verify edilmesi gerekir.
+
+- provider consumer'ın beklediğinden daha fazla field dönebilir, bu conract'ı bozmaz.
