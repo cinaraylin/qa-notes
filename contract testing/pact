@@ -10,7 +10,9 @@ pact consumer-driven bir test tool'udur. contract'lar consumer tarafında üreti
 yani contract'larla ilişkisi olmayan provider kodlarında istenildiği gibi değişiklik yapılabilir.
 
 pact'in çalışma mantığını açıklayan güzel bir akış şeması:
-<img src="https://github.com/cinaraylin/qa-notes/blob/main/contract%20testing/pact-diagram.png" alt="how pact works" height="400"/>
+
+![how pact works](https://github.com/[cinaraylin]//qa-notes/blob/main/contract%20testing/pact-diagram.png?raw=true)
+
 
 1- consumer tarafında mock bir provider servisi ayağa kaldırıyoruz ve bize dönmesini beklediğimiz response'u bu servise bildiriyoruz.
 2- her bir testin sonunda interaction'lar contract dökümanına yazılıyor. 
