@@ -11,7 +11,7 @@ yani contract'larla ilişkisi olmayan provider kodlarında istenildiği gibi de�
 
 pact'in çalışma mantığını açıklayan güzel bir akış şeması:
 
-![how pact works](https://github.com/[cinaraylin]//qa-notes/blob/main/contract%20testing/pact-diagram.png?raw=true)
+![how pact works](https://github.com/[cinaraylin]/qa-notes/blob/main/contract%20testing/pact-diagram.png?raw=true)
 
 
 1- consumer tarafında mock bir provider servisi ayağa kaldırıyoruz ve bize dönmesini beklediğimiz response'u bu servise bildiriyoruz.
