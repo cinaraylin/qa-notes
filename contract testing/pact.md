@@ -14,13 +14,13 @@ pact'in çalışma mantığını açıklayan güzel bir akış şeması:
 ![how pact works](./../pact-diagram.png?raw=true)
 
 
-1- consumer tarafında mock bir provider servisi ayağa kaldırıyoruz ve bize dönmesini beklediğimiz response'u bu servise bildiriyoruz.
-2- her bir testin sonunda interaction'lar contract dökümanına yazılıyor. 
-3- Tüm testler bittikten sonra oluşan contract dökümanını pact broker'a yüklüyoruz
+1- consumer tarafında mock bir provider servisi ayağa kaldırıyoruz ve bize dönmesini beklediğimiz response'u bu servise bildiriyoruz.<br>
+2- her bir testin sonunda interaction'lar contract dökümanına yazılıyor. <br>
+3- Tüm testler bittikten sonra oluşan contract dökümanını pact broker'a yüklüyoruz.<br>
 4- provider service pact broker'dan bütün contract'ları alıyor ve her bir interaction'ı kendi tarafında gerçekleştirip sonuçları consumer'ın expectation'larıyla 
-   karşılaştırıyor. eğer her request'in response'u consumer'ın beklediği response ile uyuşuyorsa, verification testi geçmiş oluyor.
+   karşılaştırıyor. eğer her request'in response'u consumer'ın beklediği response ile uyuşuyorsa, verification testi geçmiş oluyor.<br>
 5- provider service'in etkileşim kurduğu diğer sistemler mocklanıyor ve testler isolated olarak koşulmuş oluyor. 
-   (bu aşama 4. aşamayla birlikte gerçekleşiyor aslında)
+   (bu aşama 4. aşamayla birlikte gerçekleşiyor aslında)<br>
 Son olarak da provider api verification sonucunu pact broker'a iletiyor ve broker'dan da testlerin başarılı olup olmadığını takip edebiliyoruz.
 
 consumer ve provider arasındaki interactionlar/contractların bütününe pact deniyor.
