@@ -8,8 +8,16 @@ dolayısıyla uygulamalarımızın doğru bir şekilde etkileşim kurduğundan e
 
 pact consumer-driven bir test tool'udur. contract'lar consumer tarafında üretilir, ve provider tarafında test edilir. 
 yani contract'larla ilişkisi olmayan provider kodlarında istenildiği gibi değişiklik yapılabilir.
+<br><br>
 
-pact'in çalışma mantığını açıklayan güzel bir akış şeması:
+**çalışma şekli**
+
+pact ile yaptığımız şey kabaca şu şekilde:
+- consumer tarafında test koşarak bir contract üretiyoruz
+- provider tarafında bu contract'ı alıyoruz ve consumer'ın beklediği response'ları üretip üretmediğimizi kontrol ediyoruz.
+
+
+aşağıdaki şema üzerinden adım adım gidelim şimdi:
 
 <img src="https://github.com/cinaraylin/qa-notes/blob/main/contract%20testing/pact-diagram.png" width="600" title="how pact works" alt="how pact works">
 
@@ -24,7 +32,7 @@ pact'in çalışma mantığını açıklayan güzel bir akış şeması:
 Son olarak da provider api verification sonucunu pact broker'a iletiyor ve broker'dan da testlerin başarılı olup olmadığını takip edebiliyoruz.
 
 consumer ve provider arasındaki interactionlar/contractların bütününe pact deniyor.
-pact bir json dosyasıdır ve içinde şu datalar bulunur:
+pact bir json dosyasıdır ve içinde şu datalar bulunuyor:
 - consumer adı
 - provider adı
 - interaction listesi
