@@ -1,4 +1,4 @@
-pact nedir?
+**pact nedir?** <br>
 pact async mesaj ve http request contract'larını test etmeyi sağlayan bir tool.
 
 projemizde kullanmaya karar verdik çünkü:
@@ -11,7 +11,7 @@ yani contract'larla ilişkisi olmayan provider kodlarında istenildiği gibi de�
 
 pact'in çalışma mantığını açıklayan güzel bir akış şeması:
 
-![how pact works](./../pact-diagram.png?raw=true)
+<img src="https://github.com/cinaraylin/qa-notes/blob/main/contract%20testing/pact-diagram.png" width="600" title="how pact works" alt="how pact works">
 
 
 1- consumer tarafında mock bir provider servisi ayağa kaldırıyoruz ve bize dönmesini beklediğimiz response'u bu servise bildiriyoruz.<br>
@@ -29,6 +29,7 @@ pact bir json dosyasıdır ve içinde şu datalar bulunur:
 - provider adı
 - interaction listesi
 - pact spesification versiyonu
+<br><br>
 
 **consumer tarafında kullanılan komutlar (js)**
 - new Pact(options): mock server yaratır. istediğin kadar provider yaratabilirsin
@@ -36,21 +37,25 @@ pact bir json dosyasıdır ve içinde şu datalar bulunur:
 - addInteraction(): expectation eklemek için kullanılır. her server'a veya test'e birden fazla expectation eklenebilir. eklenen expetation validate edilir ve başarılıysa pact'e yazılır.
 - verify(): her interaction'ın beklendiği gibi gerçekleştiğini verify eder. her test için bir kere çağrılır
 - finalize(): interaction'ları pact dosyasına kaydeder. bir kere; afterAll()'da çağrılır.
+<br><br>
 
 **versiyonlama**
-versiyonlar can i deploy tarafından kullanılıyor.
-3 tane versiyon var pact'te: contract versiyonu, pact verification versiyonu ve consumer versiyonu.
-pact'in versiyonuyla biz ilgilenmiyoruz, pact kendisi yönetiyor.
-consumer ve provider versiyonlarını biz yönetiyoruz. conflict olmaması için bu versiyonlarda commit numaralarının da kullanılması öneriliyor. 
+
+versiyonlar can i deploy tarafından kullanılıyor.<br>
+3 tane versiyon var pact'te: contract versiyonu, pact verification versiyonu ve consumer versiyonu.<br>
+pact'in versiyonuyla biz ilgilenmiyoruz, pact kendisi yönetiyor.<br>
+consumer ve provider versiyonlarını biz yönetiyoruz. conflict olmaması için bu versiyonlarda commit numaralarının da kullanılması öneriliyor. <br>
 comsumer ve provider versiyonları ile bir matrix oluşturuluyor ve deployment yapılacağı zaman bu matrix kontrol ediliyor.
 
-![version matrix](https://github.com/cinaraylin/qa-notes/blob/contract%20testing/pact-versin-matrix.png?raw=true)
+
+<img src="https://github.com/cinaraylin/qa-notes/blob/main/contract%20testing/pact-versin-matrix.png" width="600" title="version matrix" alt="version matrix">
 
 - consumer deploy edilecekse; deploy edilecek consumer versiyonu ile  proddaki provider'ın versiyonunun 
 - provider deploy edilecekse; deploy edilecek provider'ın versiyonu ile prod'daki consumer'ın versiyonunun 
-matrix'deki success değerine bakılıyor. success değeri true ise deployment gerçekleştirilebiliyor.
-eğer bir uygulama hem provider hem de consumer ise iki versiyonunun da aynı olması gerekiyor; yoksa can i deploy doğru sonucu üretemez.
 
+matrix'deki success değerine bakılıyor. success değeri true ise deployment gerçekleştirilebiliyor.<br>
+eğer bir uygulama hem provider hem de consumer ise iki versiyonunun da aynı olması gerekiyor; yoksa can i deploy doğru sonucu üretemez.
+<br><br>
 
 **Akılda tutulması gereken birkaç notu sıralayalım.**
 - her bir test yalnızca bir interaction'ı test etmeli. eğer bir case için birden fazla interaction gerekiyorsa, her bir interaction ayrı bir test olacak şekilde
