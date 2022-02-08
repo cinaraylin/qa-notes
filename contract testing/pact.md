@@ -30,7 +30,29 @@ pact bir json dosyasıdır ve içinde şu datalar bulunur:
 - interaction listesi
 - pact spesification versiyonu
 
-Akılda tutulması gereken birkaç notu sıralayalım.
+**consumer tarafında kullanılan komutlar (js)**
+- new Pact(options): mock server yaratır. istediğin kadar provider yaratabilirsin
+- setup(): mock server'ı başlatır ve hazır olana kadar bekler. bir kere başlatılmalı mock server; bu yüzden beforeAll()'da kullanılmalı
+- addInteraction(): expectation eklemek için kullanılır. her server'a veya test'e birden fazla expectation eklenebilir. eklenen expetation validate edilir ve başarılıysa pact'e yazılır.
+- verify(): her interaction'ın beklendiği gibi gerçekleştiğini verify eder. her test için bir kere çağrılır
+- finalize(): interaction'ları pact dosyasına kaydeder. bir kere; afterAll()'da çağrılır.
+
+**versiyonlama**
+versiyonlar can i deploy tarafından kullanılıyor.
+3 tane versiyon var pact'te: contract versiyonu, pact verification versiyonu ve consumer versiyonu.
+pact'in versiyonuyla biz ilgilenmiyoruz, pact kendisi yönetiyor.
+consumer ve provider versiyonlarını biz yönetiyoruz. conflict olmaması için bu versiyonlarda commit numaralarının da kullanılması öneriliyor. 
+comsumer ve provider versiyonları ile bir matrix oluşturuluyor ve deployment yapılacağı zaman bu matrix kontrol ediliyor.
+
+![version matrix](https://github.com/cinaraylin/qa-notes/blob/contract%20testing/pact-versin-matrix.png?raw=true)
+
+- consumer deploy edilecekse; deploy edilecek consumer versiyonu ile  proddaki provider'ın versiyonunun 
+- provider deploy edilecekse; deploy edilecek provider'ın versiyonu ile prod'daki consumer'ın versiyonunun 
+matrix'deki success değerine bakılıyor. success değeri true ise deployment gerçekleştirilebiliyor.
+eğer bir uygulama hem provider hem de consumer ise iki versiyonunun da aynı olması gerekiyor; yoksa can i deploy doğru sonucu üretemez.
+
+
+**Akılda tutulması gereken birkaç notu sıralayalım.**
 - her bir test yalnızca bir interaction'ı test etmeli. eğer bir case için birden fazla interaction gerekiyorsa, her bir interaction ayrı bir test olacak şekilde
   bölünmeli.
   pact dökümantasyonundaki bir örnek:
